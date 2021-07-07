@@ -13,8 +13,6 @@ from tqdm import tqdm
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import Normalizer
 
-from data_generation import generate
-
 def generate(master_path):
     dataset_path = os.getcwd() + "data"
     song_embeddings_path = dataset_path + "/songs_embeddings.parquet"
