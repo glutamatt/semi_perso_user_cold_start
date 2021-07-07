@@ -15,7 +15,7 @@ from sklearn.preprocessing import Normalizer
 
 def generate(master_path):
     dataset_path = os.getcwd() + "/data"
-    song_embeddings_path = dataset_path + "/songs_embeddings.parquet"
+    song_embeddings_path = dataset_path + "/song_embeddings.parquet"
     song_embeddings = pd.read_parquet(song_embeddings_path, engine = 'fastparquet').fillna(0)#, columns=dataset_columns)
 
     if not os.path.exists(master_path+"/m_song_dict.pkl"):
