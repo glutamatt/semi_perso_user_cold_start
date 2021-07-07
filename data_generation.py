@@ -16,9 +16,8 @@ from sklearn.preprocessing import Normalizer
 from data_generation import generate
 
 def generate(master_path):
-    #dataset_path = "deezer/sample"
-    dataset_path = os.getcwd() + "/20210128_song_info/songInfos"
-    song_embeddings_path = data_song_path + "/part-00000-c97fa023-088d-4d3c-9023-ce95621b1ef4-c000.snappy.parquet"
+    dataset_path = os.getcwd() + "data"
+    song_embeddings_path = dataset_path + "/songs_embeddings.parquet"
     song_embeddings = pd.read_parquet(song_embeddings_path, engine = 'fastparquet').fillna(0)#, columns=dataset_columns)
 
     if not os.path.exists(master_path+"/m_song_dict.pkl"):
