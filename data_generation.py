@@ -31,7 +31,7 @@ def generate(master_path):
 
     # user embeddings (target = only for train users)
 
-    user_embeddings = pd.read_parquet(dataset_path + "user_embeddings_sample.parquet", engine = 'fastparquet')
+    user_embeddings = pd.read_parquet(dataset_path + "/user_embeddings_sample.parquet", engine = 'fastparquet')
     list_embeddings = ["embedding_"+str(i) for i in range(len(user_embeddings["mf_embeddings"][0]))]
     user_embeddings[list_embeddings] = pd.DataFrame(user_embeddings.mf_embeddings.tolist(), index= user_embeddings.index)
     embeddings_train = user_embeddings[list_embeddings].values
