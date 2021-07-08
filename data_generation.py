@@ -50,6 +50,7 @@ def generate(master_path):
         os.mkdir(master_path+"/")
     if not os.path.exists(master_path+"/"+state+"/"):
         os.mkdir(master_path+"/"+state+"/")
+    print(features_train)
     for idx in range(len(features_train)):
         x_train = torch.FloatTensor(features_train.iloc[idx,2:])
         y_train = torch.FloatTensor(user_embeddings[list_embeddings].iloc[idx,:])
