@@ -19,7 +19,7 @@ def generate(master_path):
     #songs
 
     song_embeddings_path = dataset_path + "/song_embeddings_sample.parquet"
-    song_embeddings = pd.read_parquet(song_embeddings_path, engine = 'fastparquet').fillna(0)#, columns=dataset_columns)
+    song_embeddings = pd.read_parquet(song_embeddings_path, engine = 'fastparquet').fillna(0)
 
     if not os.path.exists(master_path+"/m_song_dict.pkl"):
         song_dict = {}
@@ -32,7 +32,7 @@ def generate(master_path):
     # user embeddings (target = only for train users)
 
     user_embeddings = pd.read_parquet(dataset_path + "/user_embeddings_sample.parquet", engine = 'fastparquet')
-    list_embeddings = ["embedding_"+str(i) for i in range(len(user_embeddings["mf_embeddings"][0]))]
+    list_embeddings = ["embedding_"+str(i) for i in range(len(user_embeddings["svd_embeddings"][0]))]
     user_embeddings[list_embeddings] = pd.DataFrame(user_embeddings.mf_embeddings.tolist(), index= user_embeddings.index)
     embeddings_train = user_embeddings[list_embeddings].values
 
@@ -52,7 +52,7 @@ def generate(master_path):
         os.mkdir(master_path+"/"+state+"/")
     for idx in range(len(features_train)):
         x_train = torch.FloatTensor(features_train.iloc[idx,2:])
-        y_train = torch.FloatTensor(user_features[list_embeddings].iloc[idx,:])
+        y_train = torch.FloatTensor(user_embeddings[list_embeddings].iloc[idx,:])
         pickle.dump(x_train, open("{}/{}/x_train_{}.pkl".format(master_path, state, idx), "wb"))
         pickle.dump(y_train, open("{}/{}/y_train_{}.pkl".format(master_path, state, idx), "wb"))
 
