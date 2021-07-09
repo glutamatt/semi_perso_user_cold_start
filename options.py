@@ -6,7 +6,7 @@ config = {
     # model setting
     'nb_epochs': 130,
     'learning_rate': 0.00001,
-    'batch_size': 1,#512,XXX to change
+    'batch_size': 2,#512,XXX to change
     'reg_param': 0,
     'drop_out': 0,
     # model training
