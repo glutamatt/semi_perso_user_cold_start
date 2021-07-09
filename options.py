@@ -11,7 +11,7 @@ config = {
     'drop_out': 0,
     # model training
     'eval_every': 10,
-    'k_val': 50,
+    'k_val': 3,#50, XXX to change
 }
 
 dataset_eval = ["validation", "test"]
