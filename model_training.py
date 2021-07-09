@@ -4,7 +4,7 @@ import pickle
 import random
 
 from model import RegressionTripleHidden
-from options import config, states
+from options import config
 
 
 def training(dataset_path, master_path, eval=True, model_save=True, model_filename=None):#XXXX change None
