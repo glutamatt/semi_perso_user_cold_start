@@ -12,9 +12,9 @@ from sklearn.metrics import ndcg_score, dcg_score
 from tqdm import tqdm
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import Normalizer
+from options import dataset_eval
 
-def generate(master_path):
-    dataset_path = os.getcwd() + "/data"
+def generate(dataset_path, master_path):
 
     #songs
 
@@ -46,32 +46,31 @@ def generate(master_path):
 
     # training dataset creation
 
-    state = "train"
+    dataset = "train"
     if not os.path.exists(master_path+"/"):
         os.mkdir(master_path+"/")
-    if not os.path.exists(master_path+"/"+state+"/"):
-        os.mkdir(master_path+"/"+state+"/")
+    if not os.path.exists(master_path+"/"+dataset+"/"):
+        os.mkdir(master_path+"/"+dataset+"/")
     for idx in range(len(features_train)):
         x_train = torch.FloatTensor(features_train.iloc[idx,2:])
         y_train = torch.FloatTensor(user_embeddings[list_embeddings].iloc[idx,:])
-        pickle.dump(x_train, open("{}/{}/x_train_{}.pkl".format(master_path, state, idx), "wb"))
-        pickle.dump(y_train, open("{}/{}/y_train_{}.pkl".format(master_path, state, idx), "wb"))
+        pickle.dump(x_train, open("{}/{}/x_train_{}.pkl".format(master_path, dataset, idx), "wb"))
+        pickle.dump(y_train, open("{}/{}/y_train_{}.pkl".format(master_path, dataset, idx), "wb"))
 
     # user features validation & test
 
-    states = ["validation", "test"]
-    for state in states :
-        features_validation_path = dataset_path + "/user_features_" + state + ".parquet"
+    for dataset in dataset_eval :
+        features_validation_path = dataset_path + "/user_features_" + dataset + ".parquet"
         features_validation = pd.read_parquet(features_validation_path, engine = 'fastparquet').fillna(0)
         features_validation = features_validation.sort_values("user_index")
         features_validation = features_validation.reset_index(drop=True)
 
-        if not os.path.exists(master_path+"/"+state+"/"):
-            os.mkdir(master_path+"/"+state+"/"+"/")
+        if not os.path.exists(master_path+"/"+dataset+"/"):
+            os.mkdir(master_path+"/"+dataset+"/"+"/")
         for i in range(len(features_validation)):
             x_validation = torch.FloatTensor(features_validation.iloc[i,2:])
             y_validation = [song_dict[song_index]  for song_index in features_validation["d1d30_songs"][i]]
             groundtruth_validation_list = [1.0 * (song in y_validation) for song in range(len(song_embeddings))]
-            pickle.dump(x_validation, open("{}/{}/x_validation_{}.pkl".format(master_path, state, i), "wb"))
-            pickle.dump(y_validation, open("{}/{}/y_listened_songs_validation_{}.pkl".format(master_path, state, i), "wb"))
-            pickle.dump(groundtruth_validation_list, open("{}/{}/groundtruth_list_{}.pkl".format(master_path, state, i), "wb"))
+            pickle.dump(x_validation, open("{}/{}/x_validation_{}.pkl".format(master_path, dataset, i), "wb"))
+            pickle.dump(y_validation, open("{}/{}/y_listened_songs_validation_{}.pkl".format(master_path, dataset, i), "wb"))
+            pickle.dump(groundtruth_validation_list, open("{}/{}/groundtruth_list_{}.pkl".format(master_path, dataset, i), "wb"))
