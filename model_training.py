@@ -87,6 +87,10 @@ def training(dataset_path, master_path, eval=True, model_save=True, model_filena
                 loss.backward()
                 optimizer.step()
                 loss_train.append(loss.item())
+            print("loss_train")
+            print(loss_train)
+            print("a")
+            print(a)
             print('epoch ' + str(nb) +  " training loss : "+ str(sum(loss_train)/float(len(loss_train))))
             print("--- seconds ---" + str(time.time() - start_time_epoch))
 
